@@ -1,3 +1,8 @@
+<?php
+$name = 'Oleh';
+$surname = 'Smaha';
+?>
+
 <!DOCTYPE html>
 <html lang="ua">
     <head>

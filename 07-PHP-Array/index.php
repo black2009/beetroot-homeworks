@@ -22,7 +22,7 @@ $language = array("English"=>"en", "Russian"=>"ru", "Ukrainian"=>"ua");
                     <option value="English"><?php echo $language['English']; ?></option>
                     <option value="Russian"><?php echo $language['Russian']; ?></option>
                     <option value="Ukrainian"><?php echo $language['Ukrainian']; ?></option>
-                </select
+                </select>
             </div>
         </form>
         <form action="#" method="get">
