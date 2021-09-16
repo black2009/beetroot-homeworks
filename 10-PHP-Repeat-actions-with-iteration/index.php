@@ -1,4 +1,5 @@
 <?php
+
 $users = [];
 $users["1"] = ["name" => "Sashko", "lang" => "ru", "email" => "name1@test.com"];
 $users["2"] = ["name" => "Mariya", "lang" => "en", "email" => "name2@test.com"];
@@ -15,7 +16,7 @@ echo 'выведите на экран имена пользователей, к
 $nameCountValues = array_count_values(array_column($users, 'name'));
 
 foreach ($nameCountValues as $name => $value) {
-    if ($value >=2) {
+    if ($value >= 2) {
         echo "$name — $value" . PHP_EOL;
     }
 }
@@ -24,8 +25,7 @@ foreach ($nameCountValues as $name => $value) {
 echo 'разделите пользователей на массивы по языку, каждый массив будет содержать пользователей с одинаковым языком' . PHP_EOL;
 
 $userLanguage = array();
-foreach( $users as $data )
-{
+foreach ($users as $data) {
     $userLanguage[$data['lang']][] = $data;
 }
 
@@ -34,6 +34,6 @@ print_r($userLanguage);
 //с помощью цикла сформируйте новый массив, содержащий пользователей в обратном порядке от исходного массива (первый пользователь станет последним, второй — предпоследним и т.д.)
 echo 'с помощью цикла сформируйте новый массив, содержащий пользователей в обратном порядке от исходного массива (первый пользователь станет последним, второй — предпоследним и т.д.)' . PHP_EOL;
 
-foreach(array_reverse($users) as $var) {
+foreach (array_reverse($users) as $var) {
     print_r($var); // Will show in reversed order
 }
