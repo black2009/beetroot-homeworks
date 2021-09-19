@@ -1,8 +1,8 @@
 <?php
 
 // в переменной $date лежит дата формата '31-12-2020'. Преобразуйте эту дату в формат '2020.12.31'.
-
-echo date("Y.m.j", strtotime("31-12-2020")) . PHP_EOL;
+$date = '31-12-2020';
+echo date("Y.m.j", strtotime($date)) . PHP_EOL;
 
 
 // дана строка 'london is the capital of great britain'. Сделайте из нее строку 'London Is The Capital Of Great Britain'
