@@ -28,11 +28,12 @@ function usersfilter($username, $password, $usersArray)
     foreach ($usersArray as $userData => $value) {
         if ($value[1] === $username && $value[2] === $password) {
             $userStatus = $value;
-          //  var_dump($userStatus);
+            //  var_dump($userStatus);
         }
     }
     return $userStatus;
 }
+
 $userStatment = usersfilter($username, $password, $usersArray);
 
 var_dump($userStatment);
