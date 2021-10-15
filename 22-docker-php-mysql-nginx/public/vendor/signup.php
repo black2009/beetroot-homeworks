@@ -20,7 +20,6 @@ if ($password === $password_confirm) {
 
     $password = md5($password);
 
-//        mysqli_query($connect, "INSERT INTO `users` (`id`, `full_name`, `login`, `email`, `password`, `avatar`) VALUES (NULL, '$full_name', '$login', '$email', '$password', '$path')");
     $data = $connect->prepare('INSERT INTO users  VALUES(:id)');
     $data->bindParam(':id', $id);
 
