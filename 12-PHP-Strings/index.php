@@ -20,15 +20,15 @@ echo ucwords($string) . PHP_EOL;
 
 $password = 'a234a678c10';
 
-if (strlen($password) > 7 && strlen($password) < 12) {
-        echo 'Password is good enough'  . PHP_EOL;
-}
-else {
-    echo 'You must choose a new password'  . PHP_EOL;
+$passwordLength = strlen($password);
+if ($passwordLength > 7 && $passwordLength < 12) {
+    echo 'Password is good enough' . PHP_EOL;
+} else {
+    echo 'You must choose a new password' . PHP_EOL;
 }
 
 // дана строка с буквами и цифрами, например, '1a2b3c4b5d6e7f8g9h0'.
 // Удалите из нее все цифры. В нашем случае должна получится строка 'abcbdefgh'
 
 $newString = '1a2b3c4b5d6e7f8g9h0';
-echo preg_replace("/\d+/", "", $newString)   . PHP_EOL;
+echo preg_replace("/\d+/", "", $newString) . PHP_EOL;
