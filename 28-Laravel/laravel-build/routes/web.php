@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Http;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+        return view('welcome');
 });
+
+Route::get('/currency', function () {
+        return Http::get('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
+});
+
