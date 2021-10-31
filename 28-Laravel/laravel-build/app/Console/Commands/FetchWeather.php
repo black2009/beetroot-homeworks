@@ -44,11 +44,12 @@ class FetchWeather extends Command
 //    return Command::SUCCESS;
         $city = $this->argument('city');
         $today = date("F j, Y, g:i a");
+        $k = '9f5cfaadae11dd2030bf07aaeac8dc4a';
         $this->info("Weather in $city." . PHP_EOL . "Current Weather Data on " . $today . ' (GMT)') . PHP_EOL;
-//      print_r(json_decode((Http::get("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=9f5cfaadae11dd2030bf07aaeac8dc4a")), true));
+//      print_r(json_decode((Http::get("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$k")), true));
         $weatherArray = json_decode(
             (Http::get(
-                "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=9f5cfaadae11dd2030bf07aaeac8dc4a"
+                "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$k"
             )),
             true,
             JSON_PRETTY_PRINT,
