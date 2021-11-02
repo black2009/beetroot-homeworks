@@ -21,3 +21,12 @@ Route::get('/currency', function () {
         return Http::get('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
 });
 
+Route::get('/weatherinkyiv', function () {
+    return view('weatherinkyiv');
+});
+
+Route::get('/weathercity/{city}', function ($city) {
+    return view('weathercity',  str_split($city));
+});
+
+
