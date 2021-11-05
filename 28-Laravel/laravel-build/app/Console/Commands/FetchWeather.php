@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use App\Models\City;
+use App\Models\Weather;
 
 class FetchWeather extends Command
 {
@@ -13,56 +15,56 @@ class FetchWeather extends Command
      *
      * @var string
      */
-    protected $signature = 'weather {city}';
+    protected $signature = 'weather:fetch';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Show Current Weather Data in Chosen City';
+    protected $description = 'Fetch the weather for particular city.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function handle(): void
     {
-        parent::__construct();
+        $cities = City::all()->toArray();
+        foreach ($cities as $city) {
+            $weatherDetails = $this->getWeatherDetails($city['city']);
+            $DataByCities[] = [
+                $city['city'],
+                $weatherDetails['main']['temp'],
+                $weatherDetails['main']['humidity'],
+                $weatherDetails['wind']['speed']
+            ];
+            Weather::create([
+                'city_id' => $city['city_id'],
+                'temperature' => $weatherDetails['main']['temp'],
+                'humidity' => $weatherDetails['main']['humidity'],
+                'pressure' => $weatherDetails['main']['pressure'],
+                'wind_speed' => $weatherDetails['wind']['speed'],
+                'created_at' => date("Y-m-d H:i:s"),
+            ]);
+        }
+        $this->output->table(['City', 'Temp', 'Humidity', 'Wind'], $DataByCities);
     }
 
-
-    /**
-     * Execute the console command.
-     *
-     * @param $signature
-     * @return string
-     */
-    public function handle()
+    private function getWeatherDetails($city): array
     {
-//    return Command::SUCCESS;
-        $city = $this->argument('city');
-        $today = date("F j, Y, g:i a");
-        $k = '9f5cfaadae11dd2030bf07aaeac8dc4a';
-        $this->info("Weather in $city." . PHP_EOL . "Current Weather Data on " . $today . ' (GMT)') . PHP_EOL;
-//      print_r(json_decode((Http::get("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$k")), true));
-        $weatherArray = json_decode(
-            (Http::get(
-                "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$k"
-            )),
-            true,
-            JSON_PRETTY_PRINT,
-            JSON_THROW_ON_ERROR
+        $url = sprintf(
+            'api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&lang=en&units=metric',
+            $city,
+            '9f5cfaadae11dd2030bf07aaeac8dc4a'
         );
-//      print_r($weatherArray);
-        $this->info('Longitude: ' . implode(array_column($weatherArray, 'lon'))) . PHP_EOL;
-        $this->info('Latitude: ' . implode(array_column($weatherArray, 'lat'))) . PHP_EOL;
-        $this->info('Weather main: ' . implode(array_column($weatherArray['weather'], 'main'))) . PHP_EOL;
-        $this->info('Weather description: ' . implode(array_column($weatherArray['weather'], 'description'))) . PHP_EOL;
-        $this->info('Temperature: ' . implode(array_column($weatherArray, 'temp'))) . PHP_EOL;
-        $this->info('Pressure: ' . implode(array_column($weatherArray, 'pressure'))) . PHP_EOL;
-        $this->info('Humidity: ' . implode(array_column($weatherArray, 'humidity'))) . PHP_EOL;
-        $this->info('Wind speed: ' . implode(array_column($weatherArray, 'speed'))) . PHP_EOL;
+
+        $response = Http::get($url);
+        if ($response->status() !== Response::HTTP_OK) {
+            throw new \Exception("Invalid response: {$response->body()}");
+        }
+
+        $decodedResponse = json_decode($response->body(), true);
+        $decodedResponse['main'] = array_map('intval', $decodedResponse['main']);
+        $decodedResponse['wind'] = array_map('intval', $decodedResponse['wind']);
+        return $decodedResponse;
     }
+
+
 }
