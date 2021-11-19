@@ -18,6 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/admin', function () {
+    echo view('I am admin!');
+})->middleware('admin');
+
 Route::resource('posts', PostController::class);
 Route::post('comments', [CommentController::class, 'store'])->name('comments.store');
 
